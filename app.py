@@ -119,7 +119,11 @@ try:
         'https://spreadsheets.google.com/feeds',
         'https://www.googleapis.com/auth/drive'
     ]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+    st.secrets, scopecambio credenciales
+
+)
+
     client = gspread.authorize(creds)
     sheet = client.open_by_key("12EPBC-PCL4IjAGuLuBISJ7S93weBGYMQrmzG3VP2ywg").sheet1
     data = sheet.get_all_records()
