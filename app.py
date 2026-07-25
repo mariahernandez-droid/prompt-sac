@@ -126,7 +126,33 @@ user_input = st.text_input(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+# -------------------------------------------------------------
+# SUGERENCIAS EN TIEMPO REAL
+# -------------------------------------------------------------
+if user_input.strip():
 
+    categorias = sorted(set(row["categoria"] for row in data))
+
+    sugerencias = process.extract(
+        user_input,
+        categorias,
+        scorer=fuzz.WRatio,
+        limit=5
+    )
+
+    st.markdown("### 💡 Quizás buscas...")
+
+    for categoria, score, _ in sugerencias:
+
+        if score >= 45:
+
+            if st.button(
+                f"📌 {categoria}",
+                key=f"sugerencia_{categoria}"
+            ):
+
+                st.session_state.categoria_actual = categoria
+                st.session_state.busqueda_realizada = True
 # -------------------------------------------------------------
 # PROCESAMIENTO DE BÚSQUEDA
 # -------------------------------------------------------------
