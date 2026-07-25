@@ -130,7 +130,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 # -------------------------------------------------------------
 # PROCESAMIENTO DE BÚSQUEDA
 # -------------------------------------------------------------
-if submit_button and user_input.strip():
+if user_input.strip():
 
     typing = st.empty()
     typing.markdown("<div class='typing'>💭 Escribiendo…</div>", unsafe_allow_html=True)
