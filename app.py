@@ -160,9 +160,15 @@ if (
 
 categorias = sorted(set(row["categoria"] for row in data))
 
+# Diccionario: categoria normalizada -> categoria original
+categorias_normalizadas = {
+    normalizar(categoria): categoria
+    for categoria in categorias
+}
+
 sugerencias = process.extract(
-    user_input,
-    categorias,
+    normalizar(user_input),
+    list(categorias_normalizadas.keys()),
     scorer=fuzz.WRatio,
     limit=5
 )
