@@ -143,7 +143,7 @@ if user_input != st.session_state.ultima_busqueda:
 # SUGERENCIAS EN TIEMPO REAL
 # -------------------------------------------------------------
 if (
-    len(user_input.strip()) >= 2
+    len(user_input.strip()) >= 1
     and not st.session_state.busqueda_realizada
 ):
 
