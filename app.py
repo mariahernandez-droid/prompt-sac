@@ -149,7 +149,6 @@ if user_input != st.session_state.ultima_busqueda:
     st.session_state.busqueda_realizada = False
     st.session_state.categoria_actual = None
     st.session_state.ultima_busqueda = user_input
-    
 # -------------------------------------------------------------
 # SUGERENCIAS EN TIEMPO REAL
 # -------------------------------------------------------------
@@ -158,24 +157,26 @@ if (
     and not st.session_state.busqueda_realizada
 ):
 
-categorias = sorted(set(row["categoria"] for row in data))
+    categorias = sorted(set(row["categoria"] for row in data))
 
-# Diccionario: categoria normalizada -> categoria original
-categorias_normalizadas = {
-    normalizar(categoria): categoria
-    for categoria in categorias
-}
+    # Diccionario: categoria normalizada -> categoria original
+    categorias_normalizadas = {
+        normalizar(categoria): categoria
+        for categoria in categorias
+    }
 
-sugerencias = process.extract(
-    normalizar(user_input),
-    list(categorias_normalizadas.keys()),
-    scorer=fuzz.WRatio,
-    limit=5
-)
+    sugerencias = process.extract(
+        normalizar(user_input),
+        list(categorias_normalizadas.keys()),
+        scorer=fuzz.WRatio,
+        limit=5
+    )
 
     st.markdown("### 💡 Quizás buscas...")
 
-    for categoria, score, _ in sugerencias:
+    for categoria_normalizada, score, _ in sugerencias:
+
+        categoria = categorias_normalizadas[categoria_normalizada]
 
         if score >= 45:
 
