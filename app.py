@@ -141,7 +141,10 @@ if user_input != st.session_state.ultima_busqueda:
 # -------------------------------------------------------------
 # SUGERENCIAS EN TIEMPO REAL
 # -------------------------------------------------------------
-if user_input.strip():
+if (
+    len(user_input.strip()) >= 2
+    and not st.session_state.busqueda_realizada
+):
 
     categorias = sorted(set(row["categoria"] for row in data))
 
