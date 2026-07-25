@@ -122,7 +122,8 @@ st.markdown("<div class='big-input'>", unsafe_allow_html=True)
 
 user_input = st.text_input(
     "",
-    placeholder="Escribe aquí tu consulta… ✨"
+    placeholder="Escribe aquí tu consulta... ✨",
+    key="busqueda"
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
