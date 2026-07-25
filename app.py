@@ -156,14 +156,23 @@ if user_input.strip():
 # -------------------------------------------------------------
 # PROCESAMIENTO DE BÚSQUEDA
 # -------------------------------------------------------------
-if user_input.strip():
+if (
+    user_input.strip()
+    and not st.session_state.busqueda_realizada
+):
 
     typing = st.empty()
-    typing.markdown("<div class='typing'>💭 Escribiendo…</div>", unsafe_allow_html=True)
-    time.sleep(1)
+    typing.markdown(
+        "<div class='typing'>💭 Escribiendo…</div>",
+        unsafe_allow_html=True
+    )
+
+    time.sleep(0.5)
+
     typing.empty()
 
     categorias = [row["categoria"] for row in data]
+
     resultado = process.extractOne(
         user_input,
         categorias,
@@ -171,20 +180,15 @@ if user_input.strip():
     )
 
     if resultado:
+
         best_match, score, _ = resultado
+
+        st.session_state.busqueda_realizada = True
+        st.session_state.categoria_actual = best_match
+
     else:
+
         st.warning("No encontré una categoría relacionada 😥")
-        st.stop()
-
-    st.session_state.busqueda_realizada = True
-    st.session_state.categoria_actual = best_match
-
-    st.markdown(
-        f"<div class='ios-gray'>📌 Categoría sugerida:<br><b>{best_match}</b><br>"
-        f"<small>Similaridad: {score}%</small></div>",
-        unsafe_allow_html=True
-    )
-
 # -------------------------------------------------------------
 # MOSTRAR RESULTADOS
 # -------------------------------------------------------------
