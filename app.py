@@ -116,16 +116,16 @@ except Exception as e:
     st.stop()
 
 # -------------------------------------------------------------
-# CAJA DE TEXTO
+# CAJA DE BÚSQUEDA
 # -------------------------------------------------------------
-with st.form(key="user_form"):
-    st.markdown("<div class='big-input'>", unsafe_allow_html=True)
-    user_input = st.text_area(
-        "",
-        placeholder="Escribe aquí tu consulta… ✨"
-    )
-    st.markdown("</div>", unsafe_allow_html=True)
-    submit_button = st.form_submit_button("Enviar 💌")
+st.markdown("<div class='big-input'>", unsafe_allow_html=True)
+
+user_input = st.text_input(
+    "",
+    placeholder="Escribe aquí tu consulta… ✨"
+)
+
+st.markdown("</div>", unsafe_allow_html=True)
 
 # -------------------------------------------------------------
 # PROCESAMIENTO DE BÚSQUEDA
