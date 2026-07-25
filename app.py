@@ -207,7 +207,13 @@ filtro = st.text_input(
     if match:
         partes = [p.strip() for p in match["prompt_recomendado"].split('"') if p.strip()]
         for p in partes:
-            st.markdown(f"<div class='ios-blue'>{p}</div>", unsafe_allow_html=True)
+
+    if filtro == "" or filtro in p.lower():
+
+        st.markdown(
+            f"<div class='ios-blue'>{p}</div>",
+            unsafe_allow_html=True
+        )
 
         texto = match["respuesta_recomendada"]
         bloques = re.findall(r'"([^"]+)"', texto)
