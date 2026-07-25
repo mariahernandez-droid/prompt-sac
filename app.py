@@ -158,17 +158,11 @@ if (
     and not st.session_state.busqueda_realizada
 ):
 
-    categorias = sorted(set(row["categoria"] for row in data))
-
-# Diccionario: categoria normalizada -> categoria original
-categorias_normalizadas = {
-    normalizar(categoria): categoria
-    for categoria in categorias
-}
+categorias = sorted(set(row["categoria"] for row in data))
 
 sugerencias = process.extract(
-    normalizar(user_input),
-    list(categorias_normalizadas.keys()),
+    user_input,
+    categorias,
     scorer=fuzz.WRatio,
     limit=5
 )
