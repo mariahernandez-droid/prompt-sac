@@ -197,33 +197,58 @@ if st.session_state.busqueda_realizada and st.session_state.categoria_actual:
         (row for row in data if row["categoria"] == st.session_state.categoria_actual),
         None
     )
-# -------------------------------------------------------------
-# FILTRAR MENSAJES DE LA CATEGORÍA
-# -------------------------------------------------------------
-filtro = st.text_input(
-    "🔍 Filtrar mensajes",
-    placeholder="Ej: proveedor, cupón, devolución..."
-).strip().lower()
+
     if match:
-        partes = [p.strip() for p in match["prompt_recomendado"].split('"') if p.strip()]
+
+        # -------------------------------------------------------------
+        # FILTRAR MENSAJES DE LA CATEGORÍA
+        # -------------------------------------------------------------
+        filtro = st.text_input(
+            "🔍 Buscar dentro de esta categoría",
+            placeholder="Ej: proveedor, cupón, devolución..."
+        ).strip().lower()
+
+        partes = [
+            p.strip()
+            for p in match["prompt_recomendado"].split('"')
+            if p.strip()
+        ]
+
         for p in partes:
 
-    if filtro == "" or filtro in p.lower():
+            if filtro == "" or filtro in p.lower():
 
-        st.markdown(
-            f"<div class='ios-blue'>{p}</div>",
-            unsafe_allow_html=True
-        )
+                st.markdown(
+                    f"<div class='ios-blue'>{p}</div>",
+                    unsafe_allow_html=True
+                )
 
         texto = match["respuesta_recomendada"]
         bloques = re.findall(r'"([^"]+)"', texto)
+
         if bloques:
+
             for b in bloques:
-                st.markdown(f"<div class='ios-gray'>{b}</div>", unsafe_allow_html=True)
+
+                if filtro == "" or filtro in b.lower():
+
+                    st.markdown(
+                        f"<div class='ios-gray'>{b}</div>",
+                        unsafe_allow_html=True
+                    )
+
         else:
+
             for r in texto.split("\n"):
+
                 if r.strip():
-                    st.markdown(f"<div class='ios-gray'>{r}</div>", unsafe_allow_html=True)
+
+                    if filtro == "" or filtro in r.lower():
+
+                        st.markdown(
+                            f"<div class='ios-gray'>{r}</div>",
+                            unsafe_allow_html=True
+                        )
 
 # -------------------------------------------------------------
 # SELECTOR DE CATEGORÍAS
