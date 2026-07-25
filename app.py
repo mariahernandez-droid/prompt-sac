@@ -197,7 +197,13 @@ if st.session_state.busqueda_realizada and st.session_state.categoria_actual:
         (row for row in data if row["categoria"] == st.session_state.categoria_actual),
         None
     )
-
+# -------------------------------------------------------------
+# FILTRAR MENSAJES DE LA CATEGORÍA
+# -------------------------------------------------------------
+filtro = st.text_input(
+    "🔍 Filtrar mensajes",
+    placeholder="Ej: proveedor, cupón, devolución..."
+).strip().lower()
     if match:
         partes = [p.strip() for p in match["prompt_recomendado"].split('"') if p.strip()]
         for p in partes:
