@@ -4,6 +4,17 @@ from google.oauth2.service_account import Credentials
 from rapidfuzz import process, fuzz
 import time
 import re
+import unicodedata
+
+def normalizar(texto):
+    texto = str(texto).lower().strip()
+
+    texto = ''.join(
+        c for c in unicodedata.normalize("NFD", texto)
+        if unicodedata.category(c) != "Mn"
+    )
+
+    return texto
 
 # -------------------------------------------------------------
 # CONFIGURACIÓN BÁSICA
