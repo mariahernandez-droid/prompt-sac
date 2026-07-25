@@ -126,6 +126,18 @@ user_input = st.text_input(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+# -------------------------------------------------------------
+# REINICIAR BÚSQUEDA SI CAMBIA EL TEXTO
+# -------------------------------------------------------------
+if "ultima_busqueda" not in st.session_state:
+    st.session_state.ultima_busqueda = ""
+
+if user_input != st.session_state.ultima_busqueda:
+    st.session_state.busqueda_realizada = False
+    st.session_state.categoria_actual = None
+    st.session_state.ultima_busqueda = user_input
+    
 # -------------------------------------------------------------
 # SUGERENCIAS EN TIEMPO REAL
 # -------------------------------------------------------------
@@ -153,42 +165,7 @@ if user_input.strip():
 
                 st.session_state.categoria_actual = categoria
                 st.session_state.busqueda_realizada = True
-# -------------------------------------------------------------
-# PROCESAMIENTO DE BÚSQUEDA
-# -------------------------------------------------------------
-if (
-    user_input.strip()
-    and not st.session_state.busqueda_realizada
-):
 
-    typing = st.empty()
-    typing.markdown(
-        "<div class='typing'>💭 Escribiendo…</div>",
-        unsafe_allow_html=True
-    )
-
-    time.sleep(0.5)
-
-    typing.empty()
-
-    categorias = [row["categoria"] for row in data]
-
-    resultado = process.extractOne(
-        user_input,
-        categorias,
-        scorer=fuzz.WRatio
-    )
-
-    if resultado:
-
-        best_match, score, _ = resultado
-
-        st.session_state.busqueda_realizada = True
-        st.session_state.categoria_actual = best_match
-
-    else:
-
-        st.warning("No encontré una categoría relacionada 😥")
 # -------------------------------------------------------------
 # MOSTRAR RESULTADOS
 # -------------------------------------------------------------
